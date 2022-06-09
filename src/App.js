@@ -1,24 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import { Layout } from "./components/Layout";
+import { Login } from "./components/Login";
+import RequireAuth from "./components/RequireAuth";
+import { SignUp } from "./components/SignUp";
+import { LandingPage } from "./components/LandingPage";
+import { Lounge } from "./components/Lounge";
+import { Editor } from "./components/Editor";
+import { Admin } from "./components/Admin";
+import { Home } from "./components/Home";
+import { Unauthorized } from "./components/Unauthorized";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        {/* Public routes */}
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<SignUp />} />
+        <Route path="unauthorized" element={<Unauthorized />} />
+        {/* <Route path="links" element={""} /> */}
+        <Route path="" element={<LandingPage />} />
+
+        {/* Protected routes */}
+        <Route element={<RequireAuth allowedRoles={[2001]} />}>
+          <Route path="/home" element={<Home />} />
+        </Route>
+        <Route element={<RequireAuth allowedRoles={[5150]} />}>
+          <Route path="admin" element={<Admin />} />
+        </Route>
+        <Route element={<RequireAuth allowedRoles={[1984]} />}>
+          <Route path="editor" element={<Editor />} />
+        </Route>
+        <Route element={<RequireAuth allowedRoles={[1984, 5150]} />}>
+          <Route path="lounge" element={<Lounge />} />
+        </Route>
+
+        {/* Error */}
+        <Route path="*" element={""} />
+      </Route>
+    </Routes>
   );
 }
 
