@@ -11,7 +11,11 @@ export const useRefreshToken = () => {
     setAuth((prev) => {
       console.log(JSON.stringify(prev));
       console.log(res.data.accessToken);
-      return { ...prev, accessToken: res.data.accessToken };
+      return {
+        ...prev,
+        roles: res.data.roles,
+        accessToken: res.data.accessToken,
+      };
     });
     return res.data.accessToken;
   };

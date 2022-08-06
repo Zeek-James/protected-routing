@@ -18,8 +18,9 @@ export const Users = () => {
     const getUsers = async () => {
       try {
         const response = await axiosPrivate.get("/users", {});
+        const userNames = response.data.map((user) => user.username);
         console.log(response.data);
-        isMounted && setUsers(response.data);
+        isMounted && setUsers(userNames);
       } catch (err) {
         console.error(err);
         navigate("/login", { state: { from: location }, replace: true });
@@ -41,7 +42,7 @@ export const Users = () => {
           {users.map((user, i) => (
             <Box key={i}>
               <Typography variant="h4">
-                ({i + 1}) {user?.username}
+                ({i + 1}) {user}
               </Typography>
             </Box>
           ))}

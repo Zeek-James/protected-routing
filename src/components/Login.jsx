@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
+import { useInput } from "../hooks/useInput";
+import { useToggle } from "../hooks/useToggle";
 
 const LOGIN_URL = "/auth";
 
@@ -16,10 +18,10 @@ export const Login = () => {
   const userRef = useRef();
   const errRef = useRef();
 
-  const [user, setUser] = useState("");
+  const [user, resetUser, userAttribs] = useInput("user", "");
   const [pwd, setPwd] = useState("");
-
   const [errMsg, setErrMsg] = useState("");
+  const [check, toggleCheck] = useToggle("persist", false);
 
   useEffect(() => {
     userRef.current.focus();
@@ -39,14 +41,13 @@ export const Login = () => {
       });
 
       const accessToken = res?.data?.accessToken;
-      const roles = res?.data?.roles;
       setAuth({
         user,
-        pwd,
-        roles,
+        // pwd,
+        // roles,
         accessToken,
       });
-      setUser("");
+      resetUser("");
       setPwd("");
       navigate(from, { replace: true });
     } catch (err) {
@@ -78,7 +79,7 @@ export const Login = () => {
           id="username"
           ref={userRef}
           autoComplete="off"
-          onChange={(e) => setUser(e.target.value)}
+          {...userAttribs}
           required
         />
 
@@ -90,6 +91,15 @@ export const Login = () => {
           required
         />
         <button>Login</button>
+        <Box>
+          <input
+            type="checkbox"
+            id="persist"
+            onChange={toggleCheck}
+            checked={check}
+          />
+          <label htmlFor="persist">Trust This Device</label>
+        </Box>
       </form>
     </Box>
   );

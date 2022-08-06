@@ -10,6 +10,7 @@ import { Editor } from "./components/Editor";
 import { Admin } from "./components/Admin";
 import { Home } from "./components/Home";
 import { Unauthorized } from "./components/Unauthorized";
+import { PersistLogin } from "./components/PersistLogin";
 
 function App() {
   return (
@@ -23,17 +24,19 @@ function App() {
         <Route path="" element={<LandingPage />} />
 
         {/* Protected routes */}
-        <Route element={<RequireAuth allowedRoles={[2001]} />}>
-          <Route path="/home" element={<Home />} />
-        </Route>
-        <Route element={<RequireAuth allowedRoles={[5150]} />}>
-          <Route path="admin" element={<Admin />} />
-        </Route>
-        <Route element={<RequireAuth allowedRoles={[1984]} />}>
-          <Route path="editor" element={<Editor />} />
-        </Route>
-        <Route element={<RequireAuth allowedRoles={[1984, 5150]} />}>
-          <Route path="lounge" element={<Lounge />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth allowedRoles={[2001]} />}>
+            <Route path="/home" element={<Home />} />
+          </Route>
+          <Route element={<RequireAuth allowedRoles={[5150]} />}>
+            <Route path="admin" element={<Admin />} />
+          </Route>
+          <Route element={<RequireAuth allowedRoles={[1984]} />}>
+            <Route path="editor" element={<Editor />} />
+          </Route>
+          <Route element={<RequireAuth allowedRoles={[1984, 5150]} />}>
+            <Route path="lounge" element={<Lounge />} />
+          </Route>
         </Route>
 
         {/* Error */}

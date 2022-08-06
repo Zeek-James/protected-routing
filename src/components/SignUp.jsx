@@ -91,7 +91,10 @@ export const SignUp = () => {
   };
 
   return success ? (
-    <Typography variant="h2">Success!</Typography>
+    <>
+      <Typography variant="h2">Success!</Typography>
+      <div>Login</div>
+    </>
   ) : (
     <Box>
       {errRef && errMsg && (

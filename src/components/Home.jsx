@@ -1,14 +1,15 @@
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+
+import { useLogout } from "../hooks/useLogout";
 
 export const Home = () => {
-  const { setAuth } = useAuth();
   const navigate = useNavigate();
+  const logout = useLogout();
 
-  const logout = async () => {
-    setAuth({});
+  const signOut = async () => {
+    await logout();
     navigate("/");
   };
   return (
@@ -23,7 +24,7 @@ export const Home = () => {
       <Link to="/lounge">Go to the Lounge</Link>
       <br />
       <Box className="flexGrow">
-        <Button onClick={logout}>Sign Out</Button>
+        <Button onClick={signOut}>Sign Out</Button>
       </Box>
     </section>
   );
